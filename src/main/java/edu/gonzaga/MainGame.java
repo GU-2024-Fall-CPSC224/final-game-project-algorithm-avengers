@@ -23,4 +23,24 @@ public class MainGame {
 
         // Your code here. Good luck!
     }
+
+
+    void printWelcomeScreen(){
+
+    }
+
+    void playerWonScreen(){
+
+
+    }
+
+    void playGame(){
+
+
+    }
+
+    void getPlayerInfo(){
+
+
+    }
 }
