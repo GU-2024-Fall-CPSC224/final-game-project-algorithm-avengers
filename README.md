@@ -6,7 +6,7 @@
 ### Team Information:
 
 - Team Name: Algorithm Avengers  
-- Students on team: Daniel Medina, Farhan Moustafa, Katie Park, Liya Teki, and McKinley Martsolf
+- Students on team: Liya 
 - Semester: Spring 2025
 
 
