@@ -21,20 +21,31 @@
 package edu.gonzaga;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
 
 /** Main program class for launching your team's program. */
-public class MainGame {
+public class MainGame implements ActionListener {
 
-    static JFrame frame;
-    static JButton playGame;
-    static JFrame game;
-    static JLabel teamIcon;
+    // main window frame
+    JFrame frame; 
 
-    static Font myFont = new Font("Roboto", Font.BOLD, 30);
+    // buttons
+    JButton playGame;
+    JButton quitGame;
 
-    public static void main(String[] args) {
+    // picture for intro screen
+    JLabel teamIcon;
+
+    // used to get input from player about the user
+    JTextField playerInfo;
+
+    Board board;
+    Player[] player;
+
+    Font myFont = new Font("Roboto", Font.BOLD, 30);
+
+    MainGame() { // constructor
         
         // creates and configures a frame for the game to load
         frame = new JFrame("Ultimate Connect Four");
@@ -45,55 +56,78 @@ public class MainGame {
 
         // creates and configures a button that beings the game
         playGame = new JButton("Play Game");
-        playGame.setBounds(400, 775, 250, 75);
+        playGame.setBounds(200, 775, 250, 75);
         playGame.setFont(myFont);
+        playGame.addActionListener(this);
+
+        // creates and configures a button that exits the game
+        quitGame = new JButton("Quit Game");
+        quitGame.setBounds(550, 775, 250, 75);
+        quitGame.setFont(myFont);
+        quitGame.addActionListener(this);
 
         // imports and configures the background image
         teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/teamIcon.jpeg"));
         teamIcon.setBounds(0, -28, 1000, 1000);
 
-        // makes it so a new window will pop up if the "play game" button is clicked (will improve later)
-        playGame.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                printWelcomeScreen();
-
-            }
-        });
-
         // adds everything the the actual frame so it will be visible
         frame.add(playGame);
+        frame.add(quitGame);
         frame.add(teamIcon);
         frame.setVisible(true);
 
     }
+
+    public static void main(String[] args){
+        MainGame mainGame = new MainGame();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == playGame){
+            getPlayerInfo();
+        }
+        if(e.getSource() == quitGame){
+            System.exit(0);
+        }
+
+        
+
+    }
     
-    static void printWelcomeScreen(){
-
-        // new frame is created after "play game" button is clicked
-        // CHANGE THIS LATER
-        game = new JFrame("Figure this out later");
-                    
-        game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        game.setSize(1000, 1000);           
-        game.setLayout(null);              
-        game.setResizable(false);        
-        game.setVisible(true);
-
+    public void printWelcomeScreen(){
+        // left this blank because the constructor is technically the welcome screen
+        // maybe delete this
     }
 
-    void playerWonScreen(){
+    public void playerWonScreen(){
 
 
     }
 
-    void playGame(){
+    public void playGame(){
 
 
     }
 
-    void getPlayerInfo(){
+    public void getPlayerInfo(){
+        // sets the window to be blank after a button is clicked
+        playGame.setVisible(false);
+        quitGame.setVisible(false);
+        teamIcon.setVisible(false);
 
+        // gets the number of players that will be playing (1-4/5)
+        playerInfo = new JTextField("How many players?"); 
+        playerInfo.setBounds(100, 200, 400, 75);
+        playerInfo.setFont(myFont);
+        playerInfo.setEditable(false);
+        playerInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(playerInfo);
+        playerInfo.setVisible(true);
+        // maybe create buttons with the number of players?? Will be easier to code
+        // i dont know how to code it so it gets user input if we're making it a textbox
 
     }
+
+    
 }
