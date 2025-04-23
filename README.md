@@ -12,7 +12,7 @@ either horizontally, vertically, or diagonally.
 ### Team Information:
 
 - Team Name: Algorithm Avengers  
-- Students on team: McKinely Martsolf, Katie Park, Farhan Moustfa,
+- Students on team: McKinley Martsolf, Katie Park, Farhan Moustfa,
                     Liya Tekie, and Daniel Medina
 
 - Semester: Spring 2025
