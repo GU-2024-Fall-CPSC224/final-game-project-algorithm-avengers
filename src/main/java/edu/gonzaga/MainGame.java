@@ -5,7 +5,7 @@
  * Project Description:
  * 
  * A traditional game of Connect Four, but instead of two players, the game
- * will be able to handle up to 4 players, each with their own chosen icon/token
+ * will be able to handle up to 4 players, and it can change sizes. Every player will be able to chosen icon/token
  * to represent the disk in the real life game.
  * 
  * Otherwise, the game rules will adhere to the traditional game of Connect Four,
@@ -20,9 +20,16 @@
 
 package edu.gonzaga;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /** Main program class for launching your team's program. */
 public class MainGame implements ActionListener {
