@@ -21,6 +21,7 @@
 package edu.gonzaga;
 
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -40,15 +42,26 @@ public class MainGame implements ActionListener {
     // buttons
     JButton playGame;
     JButton quitGame;
+    JButton twoPlayer;
+    JButton threePlayer;
+    JButton fourPlayer;
+    JButton sizeSmall;
+    JButton sizeMedium;
+    JButton sizeLarge;
+
+    JPanel namePanel;
 
     // picture for intro screen
     JLabel teamIcon;
 
     // used to get input from player about the user
     JTextField playerInfo;
+    JTextField[] playerNames;
 
     Board board;
     Player[] player;
+
+    int numPlayers;
 
     Font myFont = new Font("Roboto", Font.BOLD, 30);
 
@@ -77,6 +90,24 @@ public class MainGame implements ActionListener {
         teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/teamIcon.jpeg"));
         teamIcon.setBounds(0, -28, 1000, 1000);
 
+        namePanel = new JPanel();
+        namePanel.setBounds(100, 500, 900, 500);
+        namePanel.setLayout(new GridLayout(4,1,5,5));
+
+        playerNames = new JTextField[4];
+        for(int i = 0; i < 4; i++){
+            playerNames[i] = new JTextField();
+            playerNames[i].setBounds(200, 500*(i+1), 500, 75);
+            playerNames[i].setEditable(true);
+            playerNames[i].setFont(myFont);
+            // playerNames[i].setVisible(false);
+            namePanel.add(playerNames[i]);
+            // frame.add(playerNames[i]);
+        }
+
+        namePanel.setVisible(false);
+        frame.add(namePanel);
+
         // adds everything the the actual frame so it will be visible
         frame.add(playGame);
         frame.add(quitGame);
@@ -96,6 +127,32 @@ public class MainGame implements ActionListener {
         }
         if(e.getSource() == quitGame){
             System.exit(0);
+        }
+
+        if(e.getSource() == twoPlayer){
+            numPlayers = 2;
+            player = new Player[numPlayers];
+            for(int i = 0; i < numPlayers; i++){
+                player[i] = new Player();
+            }
+            getPlayerNames();
+
+        }
+        if(e.getSource() == threePlayer){
+            numPlayers = 3;
+            player = new Player[numPlayers];
+            for(int i = 0; i < numPlayers; i++){
+                player[i] = new Player();
+            }
+            getPlayerNames();
+        }
+        if(e.getSource() == fourPlayer){
+            numPlayers = 4;
+            player = new Player[numPlayers];
+            for(int i = 0; i < numPlayers; i++){
+                player[i] = new Player();
+            }
+            getPlayerNames();
         }
 
         
@@ -134,7 +191,67 @@ public class MainGame implements ActionListener {
         // maybe create buttons with the number of players?? Will be easier to code
         // i dont know how to code it so it gets user input if we're making it a textbox
 
+        //pick player number
+        twoPlayer = new JButton("2 Player");
+        twoPlayer.setBounds(100, 400, 200, 75);
+        twoPlayer.setFont(myFont);
+        twoPlayer.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(twoPlayer);
+        twoPlayer.setVisible(true);
+        twoPlayer.addActionListener(this);
+
+        threePlayer = new JButton("3 Player");
+        threePlayer.setBounds(300, 400, 200, 75);
+        threePlayer.setFont(myFont);
+        threePlayer.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(threePlayer);
+        threePlayer.setVisible(true);
+        threePlayer.addActionListener(this);
+
+        fourPlayer = new JButton("4 Player");
+        fourPlayer.setBounds(500, 400, 200, 75);
+        fourPlayer.setFont(myFont);
+        fourPlayer.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(fourPlayer);
+        fourPlayer.setVisible(true);
+        fourPlayer.addActionListener(this);
+        
     }
 
+    public void getPlayerNames(){
+
+
+
+        // JButton test = new JButton("test button");
+        // test.setBounds(500, 500, 200, 75);
+        // test.setFont(myFont);
+        // test.setHorizontalAlignment(SwingConstants.CENTER);
+        // frame.add(test);
+        // frame.setComponentZOrder(test, 0);
+        // test.setVisible(true);
+        // System.out.println("hi");
+        // frame.revalidate();
+        // frame.repaint();
+
+       //  playerNames = new JTextField[numPlayers];
+
+        for(int i = 0; i < numPlayers; i++){
+            playerNames[i].setVisible(true);
+            // namePanel.setVisible(true);
+            // playerNames[i] = new JTextField();
+            // System.out.println("hi");
+            // playerNames[i].setBounds(500, 800, 200, 75);
+            // playerNames[i].setFont(myFont);
+            // playerNames[i].setHorizontalAlignment(SwingConstants.CENTER);
+            // frame.add(playerNames[i]);
+            // frame.setComponentZOrder(playerNames[i], 1);
+            // playerInfo.setEditable(true);
+            // playerNames[i].setVisible(true);
+            // frame.revalidate();
+            // frame.repaint();
+            
+        }
+
+    }
     
 }
