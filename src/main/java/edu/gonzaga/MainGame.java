@@ -12,7 +12,7 @@
  * where a player wins if they connect four of their tokens in 4 successive spots,
  * either horizontally, vertically, or diagonally. 
  * 
- * Contributors: McKinely Martsolf, Katie Park, Farhan Moustfa, Liya Tekie, and Daniel Medina
+ * Contributors: McKinley Martsolf, Katie Park, Farhan Moustfa, Liya Tekie, and Daniel Medina
  * 
  * 
  * Copyright: 2025
@@ -34,18 +34,18 @@ public class MainGame implements ActionListener {
     JButton playGame;
     JButton quitGame;
     JButton[] numberOfPlayer;
-    JButton sizeSmall;
-    JButton sizeMedium;
-    JButton sizeLarge;
+    JButton[] boardSize;
     JButton doneButton;
 
-    // picture for intro screen
+    // pictures
     JLabel teamIcon;
+    JLabel[] boardSizeImages;
 
     // used to get input from player about the user
     JTextField playerInfo;
     JTextField[] playerNames;
     JTextField[] playerNums;
+    JTextField pickBoardSize;
 
     // objects of other classes
     Board board;
@@ -81,7 +81,7 @@ public class MainGame implements ActionListener {
         quitGame.addActionListener(this);
 
         // imports and configures the background image
-        teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/teamIcon.jpeg"));
+        teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/teamIcon.jpeg"));
         teamIcon.setBounds(0, -28, 1000, 1000);
 
         // imports and configures a text box to ask how many players will be playing
@@ -92,6 +92,32 @@ public class MainGame implements ActionListener {
         playerInfo.setHorizontalAlignment(SwingConstants.CENTER);
         playerInfo.setVisible(false);
         frame.add(playerInfo);
+
+        // imports and configures buttons and images so user can choose what size board they want to play
+        boardSize = new JButton[3];
+        boardSize[0] = new JButton("Small");
+        boardSize[1] = new JButton("Medium");
+        boardSize[2] = new JButton("Large");
+
+        boardSizeImages = new JLabel[3];
+        boardSizeImages[0] = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/smallBoard.png"));
+        boardSizeImages[1] = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/mediumBoard.png"));
+        boardSizeImages[2] = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/largeBoard.png"));
+
+        for(int i = 0; i < 3; i++){
+            boardSize[i].setBounds((300 * i) + 100, 375, 200, 75);
+            boardSize[i].setFont(mainFont);
+            boardSize[i].setVisible(false);
+            boardSize[i].addActionListener(this);
+            frame.add(boardSize[i]);
+
+            boardSizeImages[i].setBounds((300 * i) + 75, 400, 250, 500);
+            boardSizeImages[i].setVisible(false);
+            frame.add(boardSizeImages[i]);
+
+        }
+    
+        for(int i = 0; i < 3; i++)
 
         // imports and configures the options to choose how many players will be playing
         numberOfPlayer = new JButton[3];
@@ -133,6 +159,15 @@ public class MainGame implements ActionListener {
         doneButton.addActionListener(this);
         frame.add(doneButton);
 
+        // imports and configures a textfield for the user to pick board size
+        pickBoardSize = new JTextField("What size board do you want to play on?");
+        pickBoardSize.setBounds(100, 150, 800, 100);
+        pickBoardSize.setFont(mainFont);
+        pickBoardSize.setEditable(false);
+        pickBoardSize.setHorizontalAlignment(SwingConstants.CENTER);
+        pickBoardSize.setVisible(false);
+        frame.add(pickBoardSize);
+
         // adds everything the the actual frame so it will be visible
         frame.add(playGame);
         frame.add(quitGame);
@@ -155,7 +190,8 @@ public class MainGame implements ActionListener {
         }
 
         if(e.getSource() == numberOfPlayer[0]){
-            player = new Player[2];
+            numPlayers = 2;
+            player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
                 player[i] = new Player();
             }
@@ -163,14 +199,16 @@ public class MainGame implements ActionListener {
 
         }
         if(e.getSource() == numberOfPlayer[1]){
-            player = new Player[3];
+            numPlayers = 3;
+            player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
                 player[i] = new Player();
             }
             getPlayerNames();
         }
         if(e.getSource() == numberOfPlayer[2]){
-            player = new Player[4];
+            numPlayers = 4;
+            player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
                 player[i] = new Player();
             }
@@ -178,12 +216,24 @@ public class MainGame implements ActionListener {
         }
 
         if(e.getSource() == doneButton){
-            for(int i = 0; i < player.length; i++){
+            for(int i = 0; i < numPlayers; i++){ 
                 player[i].setPlayerName(playerNames[i].getText());
             }
             getBoardSize();
         }
 
+        if(e.getSource() == boardSize[0]){ // board size set to small
+            System.out.println("Small picked");
+            board.createEntireBoard('S');
+        }
+
+        if(e.getSource() == boardSize[1]){ // board size set to medium
+            board.createEntireBoard('M');
+        }
+
+        if(e.getSource() == boardSize[2]){ // board size set to large
+            board.createEntireBoard('L');
+        }
         
 
     }
@@ -228,6 +278,27 @@ public class MainGame implements ActionListener {
     }
 
     public void getBoardSize(){
+        // sets the frame to be blank (except the background image)
+        playerInfo.setVisible(false);
+
+        for(int i = 0; i < numPlayers; i++){
+            playerNums[i].setVisible(false);
+            playerNames[i].setVisible(false);
+
+        }
+
+        for(int i = 0; i < 3; i++){
+            numberOfPlayer[i].setVisible(false);
+        }
+
+        doneButton.setVisible(false);
+
+        pickBoardSize.setVisible(true);
+
+        for(int i = 0; i < 3; i++){
+            boardSize[i].setVisible(true);
+            boardSizeImages[i].setVisible(true);
+        }
 
     }
     
