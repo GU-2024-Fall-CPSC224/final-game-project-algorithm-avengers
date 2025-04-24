@@ -36,6 +36,7 @@ public class MainGame implements ActionListener {
     JButton[] numberOfPlayer;
     JButton[] boardSize;
     JButton doneButton;
+    JButton x;
 
     // pictures
     JLabel teamIcon;
@@ -79,6 +80,14 @@ public class MainGame implements ActionListener {
         quitGame.setBounds(550, 775, 250, 75);
         quitGame.setFont(mainFont);
         quitGame.addActionListener(this);
+
+        // createsd and configures an exit button
+        x = new JButton("X");
+        x.setBounds(900, 20, 50, 50);
+        x.setFont(mainFont);
+        x.setVisible(true);
+        frame.add(x);
+        x.addActionListener(this);
 
         // imports and configures the background image
         teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/teamIcon.jpeg"));
@@ -188,6 +197,9 @@ public class MainGame implements ActionListener {
         if(e.getSource() == quitGame){
             System.exit(0);
         }
+        if(e.getSource() == x){
+            System.exit(0);
+        }
 
         if(e.getSource() == numberOfPlayer[0]){
             numPlayers = 2;
@@ -223,16 +235,17 @@ public class MainGame implements ActionListener {
         }
 
         if(e.getSource() == boardSize[0]){ // board size set to small
-            System.out.println("Small picked");
-            board.createEntireBoard('S');
+            System.out.println("0");
+            board.createEntireBoard(0);
+            board.printEntireBoard();
         }
 
         if(e.getSource() == boardSize[1]){ // board size set to medium
-            board.createEntireBoard('M');
+            board.createEntireBoard(1);
         }
 
         if(e.getSource() == boardSize[2]){ // board size set to large
-            board.createEntireBoard('L');
+            board.createEntireBoard(2);
         }
         
 
