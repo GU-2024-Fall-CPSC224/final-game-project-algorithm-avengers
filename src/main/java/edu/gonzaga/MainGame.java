@@ -49,7 +49,7 @@ public class MainGame implements ActionListener {
     JTextField pickBoardSize;
 
     // objects of other classes
-    Board board;
+    Board board = new Board();
     Player[] player;
 
     // other 
@@ -84,7 +84,7 @@ public class MainGame implements ActionListener {
         // createsd and configures an exit button
         x = new JButton("X");
         x.setBounds(900, 20, 50, 50);
-        x.setFont(mainFont);
+        x.setFont(smallFont);
         x.setVisible(true);
         frame.add(x);
         x.addActionListener(this);
@@ -235,17 +235,42 @@ public class MainGame implements ActionListener {
         }
 
         if(e.getSource() == boardSize[0]){ // board size set to small
-            System.out.println("0");
-            board.createEntireBoard(0);
+            board.createEntireBoard(0, frame);
+
+            pickBoardSize.setVisible(false);
+            for(int i = 0; i < 3; i++){
+                boardSize[i].setVisible(false);
+                boardSizeImages[i].setVisible(false);
+            }
+            teamIcon.setVisible(false);
+
             board.printEntireBoard();
         }
 
         if(e.getSource() == boardSize[1]){ // board size set to medium
-            board.createEntireBoard(1);
+            board.createEntireBoard(1, frame);
+
+            pickBoardSize.setVisible(false);
+            for(int i = 0; i < 3; i++){
+                boardSize[i].setVisible(false);
+                boardSizeImages[i].setVisible(false);
+            }
+            teamIcon.setVisible(false);
+
+            board.printEntireBoard();
         }
 
         if(e.getSource() == boardSize[2]){ // board size set to large
-            board.createEntireBoard(2);
+            board.createEntireBoard(2, frame);
+
+            pickBoardSize.setVisible(false);
+            for(int i = 0; i < 3; i++){
+                boardSize[i].setVisible(false);
+                boardSizeImages[i].setVisible(false);
+            }
+            teamIcon.setVisible(false);
+            
+            board.printEntireBoard();
         }
         
 
