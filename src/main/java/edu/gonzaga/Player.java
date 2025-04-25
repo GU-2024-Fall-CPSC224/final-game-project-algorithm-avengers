@@ -2,7 +2,7 @@ package edu.gonzaga;
 
 public class Player {
     private String playerName;
-    private char playerToken;
+    private char playerToken = 't'; // set to 't' to let the program know the player's token hasn't been set yet
 
     public String getPlayerName(){
 

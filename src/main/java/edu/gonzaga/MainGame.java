@@ -33,10 +33,11 @@ public class MainGame implements ActionListener {
     // buttons
     JButton playGame;
     JButton quitGame;
-    JButton[] numberOfPlayer;
-    JButton[] boardSize;
+    JButton[] numPlayersOptions;
+    JButton[] boardSizeOptions;
     JButton doneButton;
-    JButton x;
+    JButton exit;
+    JButton[] playerTokensOption;
 
     // pictures
     JLabel teamIcon;
@@ -44,9 +45,10 @@ public class MainGame implements ActionListener {
 
     // used to get input from player about the user
     JTextField playerInfo;
-    JTextField[] playerNames;
-    JTextField[] playerNums;
+    JTextField[] playerNamesText;
+    JTextField[] numPlayersOptionsText;
     JTextField pickBoardSize;
+    JTextField[] playerTokens;
 
     // objects of other classes
     Board board = new Board();
@@ -54,6 +56,7 @@ public class MainGame implements ActionListener {
 
     // other 
     int numPlayers;
+    int playerChoices = 0;
 
     // fonts
     Font mainFont = new Font("Roboto", Font.BOLD, 30);
@@ -82,12 +85,12 @@ public class MainGame implements ActionListener {
         quitGame.addActionListener(this);
 
         // createsd and configures an exit button
-        x = new JButton("X");
-        x.setBounds(900, 20, 50, 50);
-        x.setFont(smallFont);
-        x.setVisible(true);
-        frame.add(x);
-        x.addActionListener(this);
+        exit = new JButton("X");
+        exit.setBounds(900, 20, 50, 50);
+        exit.setFont(smallFont);
+        exit.setVisible(true);
+        frame.add(exit);
+        exit.addActionListener(this);
 
         // imports and configures the background image
         teamIcon = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/teamIcon.jpeg"));
@@ -103,10 +106,10 @@ public class MainGame implements ActionListener {
         frame.add(playerInfo);
 
         // imports and configures buttons and images so user can choose what size board they want to play
-        boardSize = new JButton[3];
-        boardSize[0] = new JButton("Small");
-        boardSize[1] = new JButton("Medium");
-        boardSize[2] = new JButton("Large");
+        boardSizeOptions = new JButton[3];
+        boardSizeOptions[0] = new JButton("Small");
+        boardSizeOptions[1] = new JButton("Medium");
+        boardSizeOptions[2] = new JButton("Large");
 
         boardSizeImages = new JLabel[3];
         boardSizeImages[0] = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/smallBoard.png"));
@@ -114,50 +117,48 @@ public class MainGame implements ActionListener {
         boardSizeImages[2] = new JLabel(new ImageIcon("src/main/java/edu/gonzaga/Images/largeBoard.png"));
 
         for(int i = 0; i < 3; i++){
-            boardSize[i].setBounds((300 * i) + 100, 375, 200, 75);
-            boardSize[i].setFont(mainFont);
-            boardSize[i].setVisible(false);
-            boardSize[i].addActionListener(this);
-            frame.add(boardSize[i]);
+            boardSizeOptions[i].setBounds((300 * i) + 100, 375, 200, 75);
+            boardSizeOptions[i].setFont(mainFont);
+            boardSizeOptions[i].setVisible(false);
+            boardSizeOptions[i].addActionListener(this);
+            frame.add(boardSizeOptions[i]);
 
             boardSizeImages[i].setBounds((300 * i) + 75, 400, 250, 500);
             boardSizeImages[i].setVisible(false);
             frame.add(boardSizeImages[i]);
 
         }
-    
-        for(int i = 0; i < 3; i++)
 
         // imports and configures the options to choose how many players will be playing
-        numberOfPlayer = new JButton[3];
+        numPlayersOptions = new JButton[3];
         for(int i = 0; i < 3; i++){
-            numberOfPlayer[i] = new JButton((i + 2) + " Player");
-            numberOfPlayer[i].setBounds((300 * i) + 100, 300, 200, 75);
-            numberOfPlayer[i].setFont(mainFont);
-            numberOfPlayer[i].setVisible(false);
-            numberOfPlayer[i].addActionListener(this);
-            frame.add(numberOfPlayer[i]);
+            numPlayersOptions[i] = new JButton((i + 2) + " Player");
+            numPlayersOptions[i].setBounds((300 * i) + 100, 300, 200, 75);
+            numPlayersOptions[i].setFont(mainFont);
+            numPlayersOptions[i].setVisible(false);
+            numPlayersOptions[i].addActionListener(this);
+            frame.add(numPlayersOptions[i]);
         }
 
         // imports and configures textfields for player names to be inputted
-        playerNames = new JTextField[4];
-        playerNums = new JTextField[5];
+        playerNamesText = new JTextField[4];
+        numPlayersOptionsText = new JTextField[5];
         for(int i = 0; i < 4; i++){
-            playerNums[i] = new JTextField("Player " + (i + 1) + ": ");
-            playerNums[i].setBounds(100, 300 + (100 * (i + 1)), 200, 75);
-            playerNums[i].setEditable(false);
-            playerNums[i].setFont(mainFont);
-            playerNums[i].setHorizontalAlignment(SwingConstants.CENTER);
-            playerNums[i].setVisible(false);
-            frame.add(playerNums[i]);
+            numPlayersOptionsText[i] = new JTextField("Player " + (i + 1) + ": ");
+            numPlayersOptionsText[i].setBounds(100, 300 + (100 * (i + 1)), 200, 75);
+            numPlayersOptionsText[i].setEditable(false);
+            numPlayersOptionsText[i].setFont(mainFont);
+            numPlayersOptionsText[i].setHorizontalAlignment(SwingConstants.CENTER);
+            numPlayersOptionsText[i].setVisible(false);
+            frame.add(numPlayersOptionsText[i]);
 
-            playerNames[i] = new JTextField();
-            playerNames[i].setBounds(294, 300 + (100 * (i + 1)), 600, 75);
-            playerNames[i].setEditable(true);
-            playerNames[i].setFont(smallFont);
-            playerNames[i].setHorizontalAlignment(SwingConstants.CENTER);
-            playerNames[i].setVisible(false);
-            frame.add(playerNames[i]);
+            playerNamesText[i] = new JTextField();
+            playerNamesText[i].setBounds(294, 300 + (100 * (i + 1)), 600, 75);
+            playerNamesText[i].setEditable(true);
+            playerNamesText[i].setFont(smallFont);
+            playerNamesText[i].setHorizontalAlignment(SwingConstants.CENTER);
+            playerNamesText[i].setVisible(false);
+            frame.add(playerNamesText[i]);
         }
 
         // imports and configures a button for when all the names are inputted
@@ -177,6 +178,35 @@ public class MainGame implements ActionListener {
         pickBoardSize.setVisible(false);
         frame.add(pickBoardSize);
 
+        // imports and configures a textfield for the user to choose their token
+        playerTokens = new JTextField[4];
+        for(int i = 0; i < 4; i++){
+            playerTokens[i] = new JTextField();
+            playerTokens[i].setBounds(100, 150, 800, 100);
+            playerTokens[i].setFont(mainFont);
+            playerTokens[i].setEditable(false);
+            playerTokens[i].setHorizontalAlignment(SwingConstants.CENTER);
+            playerTokens[i].setVisible(false);
+            frame.add(playerTokens[i]);
+        }
+
+        // imports and configures buttons for individual tokens
+        playerTokensOption = new JButton[4];
+        playerTokensOption[0] = new JButton("X");
+        playerTokensOption[1] = new JButton("O");
+        playerTokensOption[2] = new JButton("#");
+        playerTokensOption[3] = new JButton("$");
+
+        for (int i = 0; i < 4; i++){
+            playerTokensOption[i].setBounds((220 * i) + 125, 500, 75, 75);
+            playerTokensOption[i].setFont(smallFont);
+            playerTokensOption[i].setHorizontalAlignment(SwingConstants.CENTER);
+            playerTokensOption[i].setVisible(false);
+            frame.add(playerTokensOption[i]);
+            playerTokensOption[i].addActionListener(this);
+
+        }
+
         // adds everything the the actual frame so it will be visible
         frame.add(playGame);
         frame.add(quitGame);
@@ -194,14 +224,16 @@ public class MainGame implements ActionListener {
         if(e.getSource() == playGame){
             getPlayerInfo();
         }
+
         if(e.getSource() == quitGame){
             System.exit(0);
         }
-        if(e.getSource() == x){
+
+        if(e.getSource() == exit){
             System.exit(0);
         }
 
-        if(e.getSource() == numberOfPlayer[0]){
+        if(e.getSource() == numPlayersOptions[0]){ // 2 players
             numPlayers = 2;
             player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
@@ -210,7 +242,7 @@ public class MainGame implements ActionListener {
             getPlayerNames();
 
         }
-        if(e.getSource() == numberOfPlayer[1]){
+        if(e.getSource() == numPlayersOptions[1]){ // 3 players
             numPlayers = 3;
             player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
@@ -218,7 +250,7 @@ public class MainGame implements ActionListener {
             }
             getPlayerNames();
         }
-        if(e.getSource() == numberOfPlayer[2]){
+        if(e.getSource() == numPlayersOptions[2]){ // 4 players
             numPlayers = 4;
             player = new Player[numPlayers];
             for(int i = 0; i < numPlayers; i++){
@@ -228,18 +260,29 @@ public class MainGame implements ActionListener {
         }
 
         if(e.getSource() == doneButton){
-            for(int i = 0; i < numPlayers; i++){ 
-                player[i].setPlayerName(playerNames[i].getText());
+            playerInfo.setVisible(false);
+            for(int i = 0; i < 4; i++){
+                playerTokensOption[i].setVisible(true);
             }
-            getBoardSize();
+
+            for(int i = 0; i < numPlayers; i++){ 
+                if(playerNamesText[i].getText().length() == 0){
+                    player[i].setPlayerName("Player " + (i + 1));
+                }else{
+                    player[i].setPlayerName(playerNamesText[i].getText());
+                }
+                playerTokens[i].setVisible(true);
+                getPlayerPieces(i);
+            }
+
         }
 
-        if(e.getSource() == boardSize[0]){ // board size set to small
+        if(e.getSource() == boardSizeOptions[0]){ // board size set to small
             board.createEntireBoard(0, frame);
 
             pickBoardSize.setVisible(false);
             for(int i = 0; i < 3; i++){
-                boardSize[i].setVisible(false);
+                boardSizeOptions[i].setVisible(false);
                 boardSizeImages[i].setVisible(false);
             }
             teamIcon.setVisible(false);
@@ -247,12 +290,12 @@ public class MainGame implements ActionListener {
             board.printEntireBoard();
         }
 
-        if(e.getSource() == boardSize[1]){ // board size set to medium
+        if(e.getSource() == boardSizeOptions[1]){ // board size set to medium
             board.createEntireBoard(1, frame);
 
             pickBoardSize.setVisible(false);
             for(int i = 0; i < 3; i++){
-                boardSize[i].setVisible(false);
+                boardSizeOptions[i].setVisible(false);
                 boardSizeImages[i].setVisible(false);
             }
             teamIcon.setVisible(false);
@@ -260,12 +303,12 @@ public class MainGame implements ActionListener {
             board.printEntireBoard();
         }
 
-        if(e.getSource() == boardSize[2]){ // board size set to large
+        if(e.getSource() == boardSizeOptions[2]){ // board size set to large
             board.createEntireBoard(2, frame);
 
             pickBoardSize.setVisible(false);
             for(int i = 0; i < 3; i++){
-                boardSize[i].setVisible(false);
+                boardSizeOptions[i].setVisible(false);
                 boardSizeImages[i].setVisible(false);
             }
             teamIcon.setVisible(false);
@@ -273,11 +316,77 @@ public class MainGame implements ActionListener {
             board.printEntireBoard();
         }
         
+        if(e.getSource() == playerTokensOption[0]){ // player chose "O" as their token
+            playerChoices++;
+            playerTokensOption[0].setVisible(false);
+            for(int i = 0; i < numPlayers; i++){
+                if(player[i].getPlayerToken() == 't'){
+                    playerTokens[i].setVisible(false);
+                    player[i].setPlayerToken('X');
+                    
+                    if(playerChoices == numPlayers){ // will get the board size once all players have chosen their token
+                        getBoardSize();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if(e.getSource() == playerTokensOption[1]){ // player chose "X" as their token
+            playerChoices++;
+            playerTokensOption[1].setVisible(false);
+            for(int i = 0; i < numPlayers; i++){
+                if(player[i].getPlayerToken() == 't'){
+                    playerTokens[i].setVisible(false);
+                    player[i].setPlayerToken('O');
+                    
+                    if(playerChoices == numPlayers){ // will get the board size once all players have chosen their token
+                        getBoardSize();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if(e.getSource() == playerTokensOption[2]){ // player chose "#" as their token
+            playerChoices++;
+            playerTokensOption[2].setVisible(false);
+            for(int i = 0; i < numPlayers; i++){
+                if(player[i].getPlayerToken() == 't'){
+                    playerTokens[i].setVisible(false);
+                    player[i].setPlayerToken('#');
+                    
+                    if(playerChoices == numPlayers){ // will get the board size once all players have chosen their token
+                        getBoardSize();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if(e.getSource() == playerTokensOption[3]){ // player chose "$" as their token
+            playerChoices++;
+            playerTokensOption[3].setVisible(false);
+            for(int i = 0; i < numPlayers; i++){
+                if(player[i].getPlayerToken() == 't'){
+                    playerTokens[i].setVisible(false);
+                    player[i].setPlayerToken('$');
+                    
+                    if(playerChoices == numPlayers){ // will get the board size once all players have chosen their token
+                        getBoardSize();
+                    }
+
+                    break;
+                }
+            }
+        }
 
     }
 
     public void playerWonScreen(){
-
 
     }
 
@@ -296,7 +405,7 @@ public class MainGame implements ActionListener {
 
         // sets the options for the number of players (buttons) visible for the user to click
         for(int i = 0; i < 3; i++){
-            numberOfPlayer[i].setVisible(true);
+            numPlayersOptions[i].setVisible(true);
         }
         
     }
@@ -305,8 +414,8 @@ public class MainGame implements ActionListener {
         
         // sets the player name fields visible for user to actually input their name
         for(int i = 0; i < player.length; i++){
-            playerNums[i].setVisible(true);
-            playerNames[i].setVisible(true);
+            numPlayersOptionsText[i].setVisible(true);
+            playerNamesText[i].setVisible(true);
         }
 
         // sets the "Done" button visible
@@ -320,24 +429,47 @@ public class MainGame implements ActionListener {
         playerInfo.setVisible(false);
 
         for(int i = 0; i < numPlayers; i++){
-            playerNums[i].setVisible(false);
-            playerNames[i].setVisible(false);
+            numPlayersOptionsText[i].setVisible(false);
+            playerNamesText[i].setVisible(false);
+            playerTokens[i].setVisible(false);
+        }
 
+        for(int i = 0; i < 4; i++){
+            playerTokensOption[i].setVisible(false);
         }
 
         for(int i = 0; i < 3; i++){
-            numberOfPlayer[i].setVisible(false);
+            numPlayersOptions[i].setVisible(false);
         }
 
         doneButton.setVisible(false);
 
         pickBoardSize.setVisible(true);
 
+        // sets the board size options (and pictures) to be visible
         for(int i = 0; i < 3; i++){
-            boardSize[i].setVisible(true);
+            boardSizeOptions[i].setVisible(true);
             boardSizeImages[i].setVisible(true);
         }
 
     }
-    
+
+   public void getPlayerPieces(int index){
+        // sets the frame to be blank (except the background image)
+        for(int i = 0; i < 4; i++){
+            playerNamesText[i].setVisible(false);
+            numPlayersOptionsText[i].setVisible(false);
+        }
+
+        for(int i = 0; i < 3; i++){
+            numPlayersOptions[i].setVisible(false);
+        }
+
+        doneButton.setVisible(false);
+
+        // text field to let the player know whose turn it is to choose their token (will change based on which player's turn it is)
+        playerTokens[index].setText(player[index].getPlayerName() + ", Pick Your Token!");
+
+
+   }
 }
