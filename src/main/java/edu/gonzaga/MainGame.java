@@ -20,9 +20,16 @@
 
 package edu.gonzaga;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /** Main program class for launching your team's program. */
 public class MainGame implements ActionListener {
@@ -38,6 +45,7 @@ public class MainGame implements ActionListener {
     JButton doneButton;
     JButton exit;
     JButton[] playerTokensOption;
+    JButton playAgain;
 
     // pictures
     JLabel teamIcon;
@@ -50,6 +58,7 @@ public class MainGame implements ActionListener {
     JTextField pickBoardSize;
     JTextField[] playerTokens;
     JTextField playerTurnText;
+    JTextField playerWin;
 
     // objects of classes
     static MainGame mainGame; // so Board class can access the JFrame
@@ -220,6 +229,23 @@ public class MainGame implements ActionListener {
         playerTurnText.setVisible(false);
         frame.add(playerTurnText);
 
+        // imports and configures a text field letting the player know who won the game
+        playerWin= new JTextField("");
+        playerWin.setBounds(100, 150, 800, 100);
+        playerWin.setFont(mainFont);
+        playerWin.setEditable(false);
+        playerWin.setHorizontalAlignment(SwingConstants.CENTER);
+        playerWin.setVisible(false);
+        frame.add(playerWin);
+        
+        playAgain = new JButton("Play Again?");
+        playAgain.setBounds(200, 775, 250, 75); 
+        playAgain.setFont(mainFont);
+        playAgain.setVisible(false);
+        playAgain.addActionListener(this);
+        frame.add(playAgain);
+
+
         // adds everything the the actual frame so it will be visible
         frame.add(playGame);
         frame.add(quitGame);
@@ -309,7 +335,16 @@ public class MainGame implements ActionListener {
                 }
             }
         }
+        if (e.getSource() == playAgain){
+            playerWin.setVisible(false);
+            board.getBoard().setVisible(false);
+            playAgain.setVisible(false);
+            teamIcon.setVisible(false);
+            exit.setVisible(false);
 
+            frame.dispose();
+            main(null);
+        }
     }
 
     public void getPlayerInfo(){
@@ -416,7 +451,7 @@ public class MainGame implements ActionListener {
 
         // **NEED TO CHANGE!** 
         // tells you which player won
-        System.out.println(player[index].getPlayerName() + " won");
+        // System.out.println(player[index].getPlayerName() + " won");
 
         // ** THINGS THAT NEED TO BE DONE **
         // reformat the board, once the player adds a token the board goes out of frame, and the column lines are no longer aligned
@@ -425,5 +460,13 @@ public class MainGame implements ActionListener {
         // ** POTENTIAL THINGS THAT NEED TO BE DONE **
         // maybe create an "Exit Game" button at the bottom? 
         // also, POTENTIALLY create a JTextField for when the user adds a tile to a column that is already full? The player would lose their turn, but maybe we can add this. The game still works without this though
+        playerWin.setText(player[index].getPlayerName() + " Won!");
+        playerWin.setVisible(true);
+        quitGame.setVisible(true);
+        playAgain.setVisible(true);
+
+        
     }
+
 }
+

@@ -1,8 +1,12 @@
 package edu.gonzaga;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 public class Board implements ActionListener {
     private String[][] entireBoardArray;
@@ -100,10 +104,10 @@ public class Board implements ActionListener {
     private void placeToken(int column){
 
         for(int i = 0; i < entireBoardArray[column].length - 1; i++){
-            if(!(entireBoardArray[column][i + 1].equals(" - "))){ // gets to the end of the array to add a token
+            if(!(entireBoardArray[column][i + 1].equals("  _ "))){ // gets to the end of the array to add a token
                 entireBoardArray[column][i] = " " + token + " ";
                 break;
-            }else if(entireBoardArray[column][entireBoardArray[column].length - 1].equals(" - ")){ // if the column has no tokens added, adds one to the end of the array
+            }else if(entireBoardArray[column][entireBoardArray[column].length - 1].equals("  _ ")){ // if the column has no tokens added, adds one to the end of the array
                 entireBoardArray[column][entireBoardArray[column].length - 1] = " " + token + " ";
                 break;
             }
@@ -147,7 +151,7 @@ public class Board implements ActionListener {
             entireBoardArray = new String[7][6];
             for(int i = 0; i < 7; i++){
                 for(int j = 0; j < 6; j++){
-                    entireBoardArray[i][j] = " - ";
+                    entireBoardArray[i][j] = "  _ ";
                     
                 }
             }
@@ -160,7 +164,7 @@ public class Board implements ActionListener {
             entireBoardArray = new String[8][7];
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 7; j++){
-                    entireBoardArray[i][j] = " - ";
+                    entireBoardArray[i][j] = "  _ ";
                 }
             }
             board.setBounds(150, 400, 690, 310);
@@ -170,7 +174,7 @@ public class Board implements ActionListener {
             entireBoardArray = new String[9][8];
             for(int i = 0; i < 9; i++){
                 for(int j = 0; j < 8; j++){
-                    entireBoardArray[i][j] = " - ";
+                    entireBoardArray[i][j] = "  _  ";
                 }
             }
             board.setBounds(100, 400, 770, 360);
