@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
 
 /** Main program class for launching your team's program. */
 public class MainGame implements ActionListener {
@@ -238,8 +239,9 @@ public class MainGame implements ActionListener {
         playerWin.setVisible(false);
         frame.add(playerWin);
         
+        // imports and configures a button which allows the user to restart the game
         playAgain = new JButton("Play Again?");
-        playAgain.setBounds(200, 775, 250, 75); 
+        playAgain.setBounds(200, 795, 250, 75); 
         playAgain.setFont(mainFont);
         playAgain.setVisible(false);
         playAgain.addActionListener(this);
@@ -335,14 +337,10 @@ public class MainGame implements ActionListener {
                 }
             }
         }
-        if (e.getSource() == playAgain){
-            playerWin.setVisible(false);
-            board.getBoard().setVisible(false);
-            playAgain.setVisible(false);
-            teamIcon.setVisible(false);
-            exit.setVisible(false);
 
-            frame.dispose();
+        if (e.getSource() == playAgain){ // if the user wants to play the game again
+
+            frame.dispose(); // restarts the game
             main(null);
         }
     }
@@ -396,9 +394,9 @@ public class MainGame implements ActionListener {
 
         doneButton.setVisible(false);
 
+        // sets the board size options (and pictures) to be visible
         pickBoardSize.setVisible(true);
 
-        // sets the board size options (and pictures) to be visible
         for(int i = 0; i < 3; i++){
             boardSizeOptions[i].setVisible(true);
             boardSizeImages[i].setVisible(true);
@@ -439,29 +437,44 @@ public class MainGame implements ActionListener {
         // gets rid of the text field that lets the user know which player's turn it is
         playerTurnText.setVisible(false);
         
-        // prints the final winning board
-        board.getBoard().setText("");
-
-        for(int i = 0; i < board.getBoardArray()[0].length; i++){
-            for(int j = 0; j < board.getBoardArray().length; j++){
-                board.getBoard().append("| " + board.getBoardArray()[j][i] + " ");
-            }
-            board.getBoard().append("|\n");
+        // clears the board
+        try{
+            board.getDoc().remove(0, board.getDoc().getLength());
+        }catch(BadLocationException e){
+            e.printStackTrace();
         }
 
-        // **NEED TO CHANGE!** 
-        // tells you which player won
-        // System.out.println(player[index].getPlayerName() + " won");
+        // prints the final board, without the column buttons
+        for(int i = 0; i < board.getBoardArray()[0].length; i++){
+            for(int j = 0; j < board.getBoardArray().length; j++){
+                try{
+                    board.getDoc().insertString(board.getDoc().getLength(), "|", board.getNonTokenFont());
+                    if(board.getBoardArray()[j][i].equals(" _ ")){
+                        board.getDoc().insertString(board.getDoc().getLength(), board.getBoardArray()[j][i], board.getNonTokenFont());
+                    }else{
+                        board.getDoc().insertString(board.getDoc().getLength(), board.getBoardArray()[j][i], board.getTokenFont());
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            try{
+                board.getDoc().insertString(board.getDoc().getLength(), "|\n", board.getNonTokenFont());
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
-        // ** THINGS THAT NEED TO BE DONE **
-        // reformat the board, once the player adds a token the board goes out of frame, and the column lines are no longer aligned
-        // add tests
 
-        // ** POTENTIAL THINGS THAT NEED TO BE DONE **
-        // maybe create an "Exit Game" button at the bottom? 
-        // also, POTENTIALLY create a JTextField for when the user adds a tile to a column that is already full? The player would lose their turn, but maybe we can add this. The game still works without this though
-        playerWin.setText(player[index].getPlayerName() + " Won!");
+        if(index == -1){
+            playerWin.setText("It's a Tie!");
+        }else{
+            playerWin.setText(player[index].getPlayerName() + " Won!");
+        }
+        
         playerWin.setVisible(true);
+        quitGame.setBounds(550, 795, 250, 75);
         quitGame.setVisible(true);
         playAgain.setVisible(true);
 

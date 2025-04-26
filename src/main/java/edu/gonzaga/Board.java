@@ -2,34 +2,28 @@ package edu.gonzaga;
 
 import java.awt.Font;
 import java.awt.event.*;
-import java.text.NumberFormat.Style;
-
 import javax.swing.*;
+import javax.swing.text.*;
+
 
 public class Board implements ActionListener {
-    private String[][] entireBoardArray;
-    private JTextArea board;
-    private JButton[] columnNums;
     private JFrame frame;
-    private String token;
-    private JTextPane textPane;
+    private JButton[] columnNums;
+    private JTextPane board;
+    private StyledDocument doc;
     
+    private String[][] entireBoardArray;
+    private String token;
     private int boardSize;
+    
     MainGame mainGame;
 
-    Font newFont = new Font("Roboto", Font.BOLD, 35);
     Font columnFont = new Font("Roboto", Font.BOLD, 20);
-    Font tokenFont = new Font("Roboto", Font.BOLD, 30);
 
-
+    Style nonTokenFont;
+    Style tokenFont;
 
     Board(){
-
-        // creates and initializes a text area that displays the board
-        board = new JTextArea();
-        board.setVisible(false);
-        board.setFont(newFont);
-        board.setEditable(false);
 
         // imports and configures the columns so the players can choose which column to add their tile to
         columnNums = new JButton[9];
@@ -40,11 +34,38 @@ public class Board implements ActionListener {
             columnNums[i].addActionListener(this);
         }
 
-        textPane = new JTextPane();
-        Style style1 = textPane.addStyle("style1", null);
+        // imports and configures the board
+        board = new JTextPane();
+        doc = board.getStyledDocument();
+        
+        // imports and configures the fonts
+        nonTokenFont = board.addStyle("nonTokenFont", null);
+        StyleConstants.setFontFamily(nonTokenFont, "Roboto");
+        StyleConstants.setFontSize(nonTokenFont, 45);
+        StyleConstants.setBold(nonTokenFont, true);
+
+        tokenFont = board.addStyle("tokenFont", null);
+        StyleConstants.setFontFamily(tokenFont, "Roboto");
+        StyleConstants.setFontSize(tokenFont, 38);
+        StyleConstants.setBold(tokenFont, true);
+
+        board.setVisible(false);
+        board.setEditable(false);
+        board.setVisible(false);
         
 
     }
+
+    // returns needed variables
+    public JTextPane getBoard(){return board;}
+
+    public StyledDocument getDoc(){return doc;}
+
+    public String[][] getBoardArray(){return entireBoardArray;}
+
+    public Style getNonTokenFont(){return nonTokenFont;}
+
+    public Style getTokenFont(){return tokenFont;}
 
     public void setMainGame(MainGame mg){ // so the board class can have access to the JFrame
         mainGame = mg;
@@ -52,8 +73,8 @@ public class Board implements ActionListener {
 
     public void setFrame(JFrame myFrame){ // adds the board to the frame
         frame = myFrame;
-
         frame.add(board);
+
 
         for(int i = 0; i < 9; i++){
             frame.add(columnNums[i]);
@@ -122,27 +143,46 @@ public class Board implements ActionListener {
 
     public void printEntireBoard(){
 
-        board.setText(""); // so the old board gets erased and a new one can get added on to it (since we use append)
+        try{ // resets the board so it can be "refreshed"
+            doc.remove(0, doc.getLength());
+        }catch(BadLocationException e){
+            e.printStackTrace();
+        }
+        
 
         // adds the board columns and tokens to the board
         for(int i = 0; i < entireBoardArray[0].length; i++){
             for(int j = 0; j < entireBoardArray.length; j++){
-                board.append("| " + entireBoardArray[j][i] + " ");
+                try{
+                    doc.insertString(doc.getLength(), "|", nonTokenFont);
+                    if(entireBoardArray[j][i].equals(" _ ")){
+                        doc.insertString(doc.getLength(), entireBoardArray[j][i], nonTokenFont);
+                    }else{
+                        doc.insertString(doc.getLength(), entireBoardArray[j][i], tokenFont);
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
-            board.append("|\n");
+            try{
+                doc.insertString(doc.getLength(), "|\n", nonTokenFont);
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
         board.setVisible(true);
 
         // adds the buttons for the players to select
         for(int i = 0; i < entireBoardArray.length; i++){
             if(boardSize == 0){
-                columnNums[i].setBounds((84*i) + 210 , 300,75, 75);
+                columnNums[i].setBounds((71*i) + 250 , 290,65, 65);
                 columnNums[i].setVisible(true);
             }else if(boardSize == 1){
-                columnNums[i].setBounds((85*i) + 155 , 300,75, 75);
+                columnNums[i].setBounds((71*i) + 205 , 290,65, 65);
                 columnNums[i].setVisible(true);
             }else{
-                columnNums[i].setBounds((84*i) + 110 , 300,75, 75);
+                columnNums[i].setBounds((71*i) + 180 , 255,65, 65);
                 columnNums[i].setVisible(true);
             }
         }
@@ -161,8 +201,7 @@ public class Board implements ActionListener {
                     
                 }
             }
-
-            board.setBounds(200, 400, 600, 260);
+            board.setBounds(240, 365, 525, 340);
 
         }
 
@@ -173,7 +212,7 @@ public class Board implements ActionListener {
                     entireBoardArray[i][j] = " _ ";
                 }
             }
-            board.setBounds(150, 400, 690, 310);
+            board.setBounds(195, 365, 605, 400);
         }
         
         if(boardSize == 2){ // large board size
@@ -183,14 +222,21 @@ public class Board implements ActionListener {
                     entireBoardArray[i][j] = " _ ";
                 }
             }
-            board.setBounds(100, 400, 770, 360);
+            board.setBounds(170, 330, 665, 450);
         }
 
     }
 
-    public JTextArea getBoard(){return board;}
-
-    public String[][] getBoardArray(){return entireBoardArray;}
+    public boolean gameOver(){ // if the board is completely filled up with no 4 connected
+        for(int i = 0; i < entireBoardArray.length; i++){
+            for(int j = 0; j < entireBoardArray[i].length; j++){
+                if(entireBoardArray[i][j].equals(" _ ")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -198,7 +244,7 @@ public class Board implements ActionListener {
         for(int i = 0; i < 9; i++){ // if the player selects a column number
             if(e.getSource() == columnNums[i]){
                 placeToken(i);
-                if(!fourConnected()){ // this is what allows the code to reiterate through the players
+                if(!fourConnected() && !gameOver()){ // this is what allows the code to reiterate through the players
                     if(mainGame.playerIndex == mainGame.numPlayers){  // 1st players turn or player index goes above the number of players playing
                         mainGame.playerIndex = 0;
                         mainGame.playGame(0);
@@ -213,7 +259,12 @@ public class Board implements ActionListener {
                     for(int j = 0; j < 9; j++){ 
                         columnNums[j].setVisible(false); // sets the column buttons to be invisible
                     }
-                    mainGame.playerWonScreen(mainGame.playerIndex - 1); // goes to the winner's screen    
+                    if(fourConnected()){
+                        mainGame.playerWonScreen(mainGame.playerIndex - 1); // goes to the winner's screen   
+                    }else if(gameOver()){
+                        mainGame.playerWonScreen(-1); // goes to winner's screen with -1 value, indicating no player has won
+                    }
+                     
                     break;
                 }   
             }         

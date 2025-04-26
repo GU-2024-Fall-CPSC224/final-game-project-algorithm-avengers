@@ -11,4 +11,11 @@ public class MainGameTest {
     void alwaysTrue() {
         Assertions.assertTrue(true);
     }
+
+    @Test
+    void playerNames(){
+        Player[] player = new Player[3];
+
+        
+    }
 }
