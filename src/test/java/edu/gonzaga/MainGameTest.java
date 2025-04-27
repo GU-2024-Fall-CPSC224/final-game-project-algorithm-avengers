@@ -17,13 +17,13 @@ public class MainGameTest {
         mg.numPlayersOptions[0].doClick(); // sets the game to be 2 players
 
         mg.playerNamesText[0] = new JTextField("GU Student"); // input player 1's name
-        mg.playerNamesText[1] = new JTextField("Code Tester"); // input player 2's name
+        mg.playerNamesText[1] = new JTextField(); // input player 2's name
 
         mg.doneButton.doClick(); // set the player's names
 
         // checks the names are set
         Assertions.assertEquals("GU Student", mg.player[0].getPlayerName());
-        Assertions.assertEquals("Code Tester", mg.player[1].getPlayerName());
+        Assertions.assertEquals("Player 2", mg.player[1].getPlayerName());
     }
 
     @Test
@@ -58,8 +58,9 @@ public class MainGameTest {
 
         mg.boardSizeOptions[0].doClick(); // sets the board size to be small
 
-        Assertions.assertEquals(7, mg.board.getBoardArray().length); // checks to see if the board columns are set as the small board
-        Assertions.assertEquals(6, mg.board.getBoardArray()[0].length); // checks to see if the board rows are set as the small board
+        // checks to see if board dimensions are correct
+        Assertions.assertEquals(7, mg.board.getBoardArray().length);
+        Assertions.assertEquals(6, mg.board.getBoardArray()[0].length);
     }
 
     @Test
