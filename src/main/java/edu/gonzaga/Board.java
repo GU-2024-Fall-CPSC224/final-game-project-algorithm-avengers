@@ -16,12 +16,12 @@ public class Board implements ActionListener {
     private String token;
     private int boardSize;
     
-    MainGame mainGame;
+    private MainGame mainGame;
 
-    Font columnFont = new Font("Roboto", Font.BOLD, 20);
+    private Font columnFont = new Font("Roboto", Font.BOLD, 20);
 
-    Style nonTokenFont;
-    Style tokenFont;
+    private Style nonTokenFont;
+    private Style tokenFont;
 
     Board(){
 
@@ -66,6 +66,8 @@ public class Board implements ActionListener {
     public Style getNonTokenFont(){return nonTokenFont;}
 
     public Style getTokenFont(){return tokenFont;}
+
+    public JButton[] getColumnButtons(){return columnNums;} // needed for testing
 
     public void setMainGame(MainGame mg){ // so the board class can have access to the JFrame
         mainGame = mg;
@@ -267,10 +269,9 @@ public class Board implements ActionListener {
                      
                     break;
                 }   
-            }         
-                
+            }                
         }
-    
+        
     }
 }
 
